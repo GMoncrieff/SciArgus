@@ -227,7 +227,7 @@ Secrets are private values that GitHub Actions can use but that never appear in 
 | Secret name | Value | Example |
 |---|---|---|
 | `GEMINI_KEY` | Your Gemini API key from step 3 | `AIzaSy...` |
-| `OPENALEX_SECRET` | **Required.** Your OpenAlex API key from step 4 | `openalex_...` |
+| `OPENALEX_SECRET` | Your OpenAlex API key from step 4 | `openalex_...` |
 | `GOOGLE_APP_PASSWORD` | The 16-character app password from step 5 | `abcd efgh ijkl mnop` |
 | `SENDER_EMAIL` | The Gmail address you created the app password for | `my-sciargus@gmail.com` |
 | `RECEIVER_EMAIL` | The email address where you want to receive the newsletter | `yourname@university.edu` |
