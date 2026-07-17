@@ -20,10 +20,11 @@ In Greek mythology, **Argus Panoptes** was the all-seeing giant with a hundred e
   - [1. Create a GitHub Account](#1-create-a-github-account)
   - [2. Fork This Repository](#2-fork-this-repository)
   - [3. Get a Gemini API Key](#3-get-a-gemini-api-key)
-  - [4. Create a Gmail App Password](#4-create-a-gmail-app-password)
-  - [5. Add Your Secrets to GitHub](#5-add-your-secrets-to-github)
-  - [6. Customise Your Config Files](#6-customise-your-config-files)
-  - [7. Test It](#7-test-it)
+  - [4. Get an OpenAlex API Key](#4-get-an-openalex-api-key)
+  - [5. Create a Gmail App Password](#5-create-a-gmail-app-password)
+  - [6. Add Your Secrets to GitHub](#6-add-your-secrets-to-github)
+  - [7. Customise Your Config Files](#7-customise-your-config-files)
+  - [8. Test It](#8-test-it)
 - [What It Costs](#what-it-costs)
 - [Troubleshooting](#troubleshooting)
 
@@ -189,7 +190,15 @@ SciArgus uses Google's Gemini AI to score and summarise papers. The free tier is
 
 The free tier allows 15 requests per minute and 500 requests per day. SciArgus uses roughly 20 requests per run, well within these limits.
 
-### 4. Create a Gmail App Password
+### 4. Get an OpenAlex API Key
+
+SciArgus uses the [OpenAlex](https://openalex.org) API to find and resolve papers, authors, and journals. **An OpenAlex API key is required** to avoid rate-limit errors and ensure reliable access.
+
+1. Go to the [OpenAlex API key request page](https://docs.openalex.org/how-to-use-the-api/api-key)
+2. Follow the instructions to request your free API key
+3. Copy the key — you'll need it in step 6
+
+### 5. Create a Gmail App Password
 
 SciArgus sends the newsletter email through Gmail. To allow this, you need to create an "app password" — a special password that lets the script log into your Gmail account to send mail.
 
@@ -206,7 +215,7 @@ This password only allows sending email; it cannot access your files or other Go
 
 > **Tip:** You can use any Gmail address as the sender. If you prefer, create a dedicated Gmail account (e.g. `my-sciargus@gmail.com`) so the newsletter comes from a separate address.
 
-### 5. Add Your Secrets to GitHub
+### 6. Add Your Secrets to GitHub
 
 Secrets are private values that GitHub Actions can use but that never appear in your code or logs.
 
@@ -218,16 +227,16 @@ Secrets are private values that GitHub Actions can use but that never appear in 
 | Secret name | Value | Example |
 |---|---|---|
 | `GEMINI_KEY` | Your Gemini API key from step 3 | `AIzaSy...` |
-| `GOOGLE_APP_PASSWORD` | The 16-character app password from step 4 | `abcd efgh ijkl mnop` |
+| `OPENALEX_SECRET` | **Required.** Your OpenAlex API key from step 4 | `openalex_...` |
+| `GOOGLE_APP_PASSWORD` | The 16-character app password from step 5 | `abcd efgh ijkl mnop` |
 | `SENDER_EMAIL` | The Gmail address you created the app password for | `my-sciargus@gmail.com` |
 | `RECEIVER_EMAIL` | The email address where you want to receive the newsletter | `yourname@university.edu` |
-| `OPENALEX_SECRET` | *(Optional)* OpenAlex API key for higher rate limits | `openalex_...` |
 
 The sender and receiver can be the same address if you like.
 
-> **Optional: OpenAlex API Key.** Without a key, SciArgus uses the OpenAlex polite pool (identified by `mailto`). Under heavy use this may trigger 429 rate-limit errors. To avoid this, [request a free API key from OpenAlex](https://docs.openalex.org/how-to-use-the-api/api-key) and add it as the `OPENALEX_SECRET` secret. When set, the key is sent as an `api_key` query parameter on every OpenAlex request, granting higher rate limits.
+> **OpenAlex API Key (required).** SciArgus requires a valid OpenAlex API key to avoid 429 rate-limit errors and ensure reliable access to the OpenAlex API. [Request a free API key from OpenAlex](https://docs.openalex.org/how-to-use-the-api/api-key) and add it as the `OPENALEX_SECRET` secret. The key is sent as an `api_key` query parameter on every OpenAlex request.
 
-### 6. Customise Your Config Files
+### 7. Customise Your Config Files
 
 Now edit the three config files to match your interests.
 
@@ -239,7 +248,7 @@ Now edit the three config files to match your interests.
 
 See [Defining Your Interests](#defining-your-interests) above for format details and tips.
 
-### 7. Test It
+### 8. Test It
 
 Trigger a manual run to make sure everything works:
 
@@ -262,7 +271,7 @@ Once it works, the newsletter will arrive automatically every Monday at 08:00 UT
 | Service | What it provides | Free tier limits | SciArgus usage per run |
 |---|---|---|---|
 | **GitHub Actions** | Runs the code weekly | 2,000 minutes/month | ~10 minutes/run (~40 min/month) |
-| **OpenAlex API** | Paper metadata and search | Unlimited (polite pool) | ~30 requests |
+| **OpenAlex API** | Paper metadata and search | Free with API key | ~30 requests |
 | **Gemini API** | AI scoring and summaries | 500 requests/day, 15/min | ~20 requests |
 | **Gmail SMTP** | Sends the email | 500 emails/day | 1 email |
 
