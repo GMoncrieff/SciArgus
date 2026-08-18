@@ -10,7 +10,7 @@ from .models import Paper, Topic
 
 logger = logging.getLogger(__name__)
 
-MODEL = "gemini-3.1-flash-lite"
+MODEL = "gemini-3.5-flash-lite"
 RPM_LIMIT = 15
 SCORING_BATCH_SIZE = 10
 SUMMARY_BATCH_SIZE = 5
